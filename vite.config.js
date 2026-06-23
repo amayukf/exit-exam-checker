@@ -4,14 +4,6 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://eap.ethernet.edu.et',
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '/api'),
-      },
-    },
-  },
+  // No proxy needed - the /api/exit-exam-result.js serverless function
+  // handles all API calls both locally (via vercel dev) and on Vercel production.
 })

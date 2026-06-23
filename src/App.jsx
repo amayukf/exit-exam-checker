@@ -22,8 +22,8 @@ function App() {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'x-api-key': import.meta.env.VITE_API_KEY
+          'Content-Type': 'application/json'
+          // No API key here — handled securely server-side
         },
         body: JSON.stringify({ username: processedUsername })
       })
