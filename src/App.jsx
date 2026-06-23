@@ -23,7 +23,7 @@ function App() {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'x-api-key': 'EAP-2024-7X9Y-2Z3W-4V5U-6T7S-8R9Q-0P1O'
+          'x-api-key': import.meta.env.VITE_API_KEY
         },
         body: JSON.stringify({ username: processedUsername })
       })
