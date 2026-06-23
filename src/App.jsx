@@ -45,33 +45,102 @@ function App() {
   }
 
   const handleDownload = () => {
-    const element = document.getElementById('result-dashboard')
-    if (!element) return
+    if (!result) return
 
-    // Clone the element to modify it for PDF without affecting UI
-    const clone = element.cloneNode(true)
-    clone.style.background = '#0d0d0d' // Solid dark background for PDF
-    clone.style.backdropFilter = 'none' // Remove blur as it breaks html2canvas
-    clone.style.webkitBackdropFilter = 'none'
-    clone.style.border = '1px solid #333'
-    clone.style.padding = '40px'
-    clone.style.borderRadius = '16px'
-    clone.style.width = '800px' // Fix width for PDF consistency
+    const fullName = result.full_name || result.fullName || 'N/A'
+    const institution = result.institution_name || 'N/A'
+    const department = result.exam_topic_name || 'N/A'
+    const examDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
-    const opt = {
-      margin: [10, 0],
-      filename: `${result.full_name || 'student'}_result.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { 
-        scale: 2, 
-        useCORS: true, 
-        logging: true,
-        backgroundColor: '#030303'
-      },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    const resultsRows = result.results && result.results.length > 0
+      ? result.results.map(r => `
+          <tr>
+            <td>${r.year}</td>
+            <td style="font-weight:700; font-size:1.2rem;">${r.total_score}</td>
+            <td><span class="status ${r.status.toLowerCase()}">${r.status}</span></td>
+          </tr>`).join('')
+      : `<tr><td colspan="3" style="text-align:center; color:#999;">No examination records found.</td></tr>`
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>Official Result - ${fullName}</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; background: #fff; padding: 40px; }
+          .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #1a1a2e; padding-bottom: 20px; margin-bottom: 30px; }
+          .header-left h1 { font-size: 1.4rem; font-weight: 800; color: #1a1a2e; }
+          .header-left p { font-size: 0.8rem; color: #555; margin-top: 4px; }
+          .badge { background: #1a1a2e; color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+          .section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 6px; }
+          .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; background: #f7f9fc; border-radius: 12px; padding: 24px; margin-bottom: 30px; }
+          .info-item .value { font-size: 1rem; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+          thead tr { background: #1a1a2e; color: white; }
+          thead th { padding: 12px 16px; text-align: left; font-size: 0.85rem; }
+          tbody tr:nth-child(even) { background: #f7f9fc; }
+          tbody td { padding: 12px 16px; font-size: 0.95rem; border-bottom: 1px solid #eee; }
+          .status { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+          .status.pass { background: #e6f9f0; color: #1a7a4a; }
+          .status.fail { background: #fdecea; color: #c0392b; }
+          .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #ddd; display: flex; justify-content: space-between; font-size: 0.75rem; color: #999; }
+          .watermark { text-align: center; margin-top: 30px; color: #c8c8c8; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="header-left">
+            <h1>Ministry of Education — Result Transcript</h1>
+            <p>National Higher Education Exit Examination Authority</p>
+          </div>
+          <span class="badge">OFFICIAL DOCUMENT</span>
+        </div>
+
+        <div class="section-title">Student Information</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="section-title">Full Name</div><div class="value">${fullName}</div></div>
+          <div class="info-item"><div class="section-title">Institution</div><div class="value">${institution}</div></div>
+          <div class="info-item"><div class="section-title">Department</div><div class="value">${department}</div></div>
+        </div>
+
+        <div class="section-title">Examination History</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Examination Period</th>
+              <th>Total Score</th>
+              <th>Result Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${resultsRows}
+          </tbody>
+        </table>
+
+        <div class="watermark">NEAEA — National Educational Assessment and Examinations Agency</div>
+
+        <div class="footer">
+          <span>Generated: ${examDate}</span>
+          <span>Exam ID: ${result.username || 'N/A'}</span>
+          <span>result.ethernet.edu.et</span>
+        </div>
+      </body>
+      </html>`
+
+    const iframe = document.createElement('iframe')
+    iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:210mm;height:297mm;border:none;'
+    document.body.appendChild(iframe)
+    iframe.contentDocument.open()
+    iframe.contentDocument.write(htmlContent)
+    iframe.contentDocument.close()
+
+    iframe.onload = () => {
+      iframe.contentWindow.focus()
+      iframe.contentWindow.print()
+      setTimeout(() => document.body.removeChild(iframe), 2000)
     }
-
-    window.html2pdf().from(clone).set(opt).save()
   }
 
   return (

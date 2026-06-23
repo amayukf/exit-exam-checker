@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://eap.ethernet.edu.et/api/:path*"
+    }
+  ]
+}
