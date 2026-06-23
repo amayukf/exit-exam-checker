@@ -1,19 +1,26 @@
-/* App.css - Component Specific Styles */
+/* App.css - Fully Responsive for All Devices */
 
+/* =====================
+   LAYOUT
+   ===================== */
 .app-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
+  padding: 3rem 1.5rem 2rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  width: 100%;
 }
 
+/* =====================
+   HEADER
+   ===================== */
 header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
 }
 
 .logo-container {
@@ -21,12 +28,14 @@ header {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
 }
 
 .logo-orb {
-  width: 60px;
-  height: 60px;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   border-radius: 50%;
   box-shadow: var(--accent-glow);
@@ -46,47 +55,61 @@ header {
 }
 
 h1 {
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 800;
   background: linear-gradient(to right, #fff, #a5a5a5);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -1px;
+  line-height: 1.1;
 }
 
 .subtitle {
   color: var(--text-dim);
-  font-size: 1.1rem;
-  max-width: 600px;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  max-width: 580px;
   margin: 0 auto;
+  padding: 0 0.5rem;
+  line-height: 1.7;
 }
 
-/* Search Section */
+/* =====================
+   SEARCH
+   ===================== */
 .search-wrapper {
   width: 100%;
-  max-width: 600px;
+  max-width: 640px;
   position: relative;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
 .search-input-group {
   position: relative;
   transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 input {
   width: 100%;
-  padding: 1.5rem 2rem;
+  padding: 1.2rem 1.5rem;
+  padding-right: 10rem; /* space for button on desktop */
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 20px;
+  border-radius: 18px;
   color: #fff;
   font-family: inherit;
-  font-size: 1.2rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   outline: none;
   transition: var(--transition);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
 }
 
 input:focus {
@@ -97,22 +120,24 @@ input:focus {
 
 .search-btn {
   position: absolute;
-  right: 10px;
+  right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  padding: 0.8rem 1.5rem;
+  padding: 0.7rem 1.2rem;
   border: none;
   border-radius: 12px;
   background: linear-gradient(to right, var(--primary), var(--secondary));
   color: #000;
   font-weight: 700;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: var(--transition);
+  white-space: nowrap;
 }
 
 .search-btn:hover {
   filter: brightness(1.1);
-  transform: translateY(-50%) scale(1.05);
+  transform: translateY(-50%) scale(1.04);
 }
 
 .search-btn:disabled {
@@ -120,123 +145,96 @@ input:focus {
   cursor: not-allowed;
 }
 
+/* =====================
+   RESULT CONTAINER
+   ===================== */
 .result-container {
   width: 100%;
+  max-width: 800px;
 }
 
-.download-btn {
-  display: flex;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  color: var(--text-main);
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  backdrop-filter: blur(10px);
-}
-
-.download-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: var(--accent-glow);
-}
-
-/* Response Section */
 .result-section {
   width: 100%;
   max-width: 800px;
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .result-card {
-  padding: 2.5rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
   animation: fadeIn 0.6s ease-out forwards;
 }
 
+/* =====================
+   STUDENT INFO GRID
+   ===================== */
 .student-info {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
   border-bottom: 1px solid var(--card-border);
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
+  padding-bottom: 1.8rem;
+  margin-bottom: 1.8rem;
   text-align: left;
 }
 
 .info-item {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .info-item label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   color: var(--text-dim);
-  letter-spacing: 1px;
-  margin-bottom: 0.5rem;
+  letter-spacing: 1.2px;
 }
 
 .info-item span {
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
   font-weight: 600;
   color: var(--text-main);
   word-break: break-word;
 }
 
+/* =====================
+   SCORES GRID
+   ===================== */
 .scores-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
 }
 
 .score-card {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--card-border);
-  padding: 1.5rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
   border-radius: 16px;
   text-align: center;
 }
 
 .score-value {
-  font-size: 2rem;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
   font-weight: 800;
   color: var(--primary);
-  margin: 0.5rem 0;
+  margin: 0.4rem 0;
 }
 
-.loader {
-  width: 48px;
-  height: 48px;
-  border: 4px solid var(--card-border);
-  border-bottom-color: var(--primary);
-  border-radius: 50%;
-  display: inline-block;
-  animation: spin 1s linear infinite;
-}
-
-.error-msg {
-  color: #ff4b2b;
-  background: rgba(255, 75, 43, 0.1);
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 75, 43, 0.2);
-}
-
+/* =====================
+   STATUS BADGES
+   ===================== */
 .status-badge {
   display: inline-block;
-  padding: 0.3rem 0.8rem;
+  padding: 0.3rem 0.9rem;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   margin-top: 0.5rem;
+  letter-spacing: 0.5px;
 }
 
 .status-badge.pass {
@@ -251,7 +249,188 @@ input:focus {
   border: 1px solid rgba(255, 75, 43, 0.2);
 }
 
-@media (max-width: 900px) {
-  .student-info { grid-template-columns: 1fr; gap: 1.5rem; }
-  h1 { font-size: 2.5rem; }
+/* =====================
+   DOWNLOAD BUTTON
+   ===================== */
+.download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  color: var(--text-main);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  cursor: pointer;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.download-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--accent-glow);
+}
+
+/* =====================
+   LOADER
+   ===================== */
+.loader {
+  width: 44px;
+  height: 44px;
+  border: 4px solid var(--card-border);
+  border-bottom-color: var(--primary);
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
+/* =====================
+   ERROR
+   ===================== */
+.error-msg {
+  color: #ff4b2b;
+  background: rgba(255, 75, 43, 0.08);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 75, 43, 0.2);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* =====================
+   FOOTER
+   ===================== */
+footer {
+  margin-top: auto;
+  padding: 2rem 1rem;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  text-align: center;
+  width: 100%;
+}
+
+/* =====================
+   RESPONSIVE — TABLET (≤768px)
+   ===================== */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 2.5rem 1.25rem 1.5rem;
+  }
+
+  .student-info {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  /* Make the 3rd item span full width on tablet */
+  .info-item:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .scores-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+
+  .search-wrapper {
+    margin-bottom: 2.5rem;
+  }
+}
+
+/* =====================
+   RESPONSIVE — MOBILE (≤520px)
+   ===================== */
+@media (max-width: 520px) {
+  .app-container {
+    padding: 2rem 1rem 1rem;
+  }
+
+  header {
+    margin-bottom: 2rem;
+  }
+
+  .logo-orb {
+    width: 42px;
+    height: 42px;
+  }
+
+  /* Stack input and button vertically on small screens */
+  input {
+    padding: 1rem 1.2rem;
+    padding-right: 1.2rem; /* reset — button goes below */
+    border-radius: 14px;
+    font-size: 1rem;
+  }
+
+  .search-btn {
+    position: static;
+    transform: none;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 14px;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .search-btn:hover {
+    transform: scale(1.02);
+  }
+
+  .search-wrapper {
+    margin-bottom: 2rem;
+  }
+
+  .result-card {
+    padding: 1.25rem;
+    border-radius: 18px;
+  }
+
+  .student-info {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  /* Reset 3rd item span for single column */
+  .info-item:nth-child(3) {
+    grid-column: auto;
+  }
+
+  .scores-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .score-card {
+    padding: 1rem 0.75rem;
+    border-radius: 12px;
+  }
+
+  .download-btn {
+    padding: 0.9rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* =====================
+   RESPONSIVE — TINY (≤360px)
+   ===================== */
+@media (max-width: 360px) {
+  .logo-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .scores-grid {
+    grid-template-columns: 1fr;
+  }
 }
